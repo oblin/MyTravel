@@ -1,7 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyTravel.Controllers.Web 
+namespace MyTravel.Controllers.Web
 {
     public class AppController : Controller
     {
@@ -12,7 +11,6 @@ namespace MyTravel.Controllers.Web
 
         public IActionResult Contact()
         {
-            throw new InvalidOperationException("Something went wrong!");
             return View();
         }
 

@@ -1,0 +1,22 @@
+@model MyTravel.ViewModels.ContactViewModel
+@{
+    ViewBag.Title = "Contact Page";
+}
+
+<h3>Contact Me</h3>
+
+<form>
+    <div>
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" />
+    </div>
+    <div>
+        <label asp-for="Message">Message</label>
+        <textarea asp-for="Message" cols="40" rows="4"></textarea>
+    </div>
+    <input type="submit" value="Send Message" />
+</form>
