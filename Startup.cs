@@ -16,14 +16,13 @@ namespace MyTravel
         {
             // app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvc();
-            // app.UseMvc(config => {
-            //     config.MapRoute(
-            //         name: "Default",
-            //         template: "{Controller}/{action}/{id?}",
-            //         defaults: new { controller = "App", action = "Index" }
-            //     );
-            // });
+            app.UseMvc(config => {
+                config.MapRoute(
+                    name: "Default",
+                    template: "{Controller}/{action}/{id?}",
+                    defaults: new { controller = "App", action = "Index" }
+                );
+            });
         }
     }
 }

@@ -1,5 +1,5 @@
 {
-    "name": "My Travel",
+    "name": "my-travel",
     "private": true,
     "dependencies": {
         "underscore": "~1.8.3",
