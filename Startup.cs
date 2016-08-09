@@ -14,7 +14,11 @@ namespace MyTravel
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // app.UseDefaultFiles();
+            if (env.IsEnvironment("Development"))
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            
             app.UseStaticFiles();
             app.UseMvc(config => {
                 config.MapRoute(

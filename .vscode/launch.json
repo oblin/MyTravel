@@ -36,13 +36,6 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command.pickProcess}"
-        },
-        {
-            "name": "Launch with Chrome",
-            "type": "chrome",
-            "request": "launch",
-            "file": "${workspaceRoot}/wwwroot/index.html",
-            "runtimeExecutable": "F:\\Tools\\GoogleChromePortable\\GoogleChromePortable.exe"
         }
     ]
 }
