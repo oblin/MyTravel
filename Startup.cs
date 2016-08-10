@@ -30,10 +30,13 @@ namespace MyTravel
             services.AddSingleton(_config);
 
             services.AddDbContext<TravelContext>();
+            services.AddTransient<TravelContextSeedData>();
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, 
+            ILoggerFactory loggerFactory,
+            TravelContextSeedData seed)
         {
             if (_env.IsEnvironment("Development"))
                 app.UseDeveloperExceptionPage();
@@ -46,6 +49,8 @@ namespace MyTravel
                     defaults: new { controller = "App", action = "Index" }
                 );
             });
+
+            seed.EnsureSeedData().Wait();
         }
     }
 }
