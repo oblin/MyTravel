@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyTravel.Models;
 using MyTravel.Services;
 
 namespace MyTravel
@@ -25,15 +26,17 @@ namespace MyTravel
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // if (_env.IsDevelopment())
+            if (_env.IsDevelopment())
                 services.AddTransient<IMailService, DebugMailService>();
             services.AddSingleton(_config);
+
+            services.AddDbContext<TravelContext>();
             services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            // if (_env.IsEnvironment("Development"))
+            if (_env.IsEnvironment("Development"))
                 app.UseDeveloperExceptionPage();
             
             app.UseStaticFiles();
