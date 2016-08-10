@@ -19,7 +19,7 @@ namespace MyTravel.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseNpgsql(_config["ConnectionStrings:sqllocaldb"]);
+            optionsBuilder.UseSqlServer(_config["ConnectionStrings:sqllocaldb"]);
         }
     }
 }
