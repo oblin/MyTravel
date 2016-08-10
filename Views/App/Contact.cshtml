@@ -8,28 +8,33 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
-<h3>Contact Me</h3>
+<div class="col-sm-6 col-sm-offset-3">
+    <h3>Contact Me</h3>
 
-<form method="post">
-    <div asp-validation-summary="ModelOnly"></div>
-    @if (ViewBag.UserMessage != null)
-    {
-        <div>@ViewBag.UserMessage</div>
-    }
-    <div>
-        <label asp-for="Name">Name</label>
-        <input asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-    </div>
-    <div>
-        <label asp-for="Email">Email</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label asp-for="Message">Message</label>
-        <textarea asp-for="Message" cols="40" rows="4"></textarea>
-        <span asp-validation-for="Message"></span>
-    </div>
-    <input type="submit" value="Send Message" />
-</form>
+    <form method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+        @if (ViewBag.UserMessage != null)
+        {
+            <div>@ViewBag.UserMessage</div>
+        }
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name"  class="form-control" />
+            <span asp-validation-for="Name" class="text-muted"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-muted"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message">Message</label>
+            <textarea asp-for="Message" cols="40" rows="4" class="form-control"></textarea>
+            <span asp-validation-for="Message" class="text-muted"></span>
+        </div>
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
+            <input type="submit" value="Send Message" class="btn btn-success" />
+        </div>
+    </form>
+</div>
