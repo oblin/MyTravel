@@ -1,5 +1,9 @@
 {
     "MailSettings": {
         "ToAddress": "shawn@wildermusht.com"
+    },
+    "ConnectionStrings": {
+        "Postgresql": "server=192.168.0.74;user id=postgres;password=490910;database=MyTravel",
+        "sqllocaldb": "Server=(localdb)\\MSSQLLocalDb;Database=MyTravel;Trusted_Connection=true;MultipleActiveResultSets=true"
     }
 }
