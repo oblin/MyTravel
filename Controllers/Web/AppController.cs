@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MyTravel.Services;
 using MyTravel.ViewModels;
 
@@ -7,10 +8,12 @@ namespace MyTravel.Controllers.Web
     public class AppController : Controller
     {
         private IMailService _mailService;
+        private IConfigurationRoot _config;
 
-        public AppController(IMailService mailService)
+        public AppController(IMailService mailService, IConfigurationRoot config)
         {
             _mailService = mailService;
+            _config = config;
         }
 
         public IActionResult Index()
@@ -26,8 +29,17 @@ namespace MyTravel.Controllers.Web
         [HttpPost]
         public IActionResult Contact(ContactViewModel model)
         {
-            _mailService.SendMail("servcie@example.com", model.Email, "From Traveling", model.Message);
-            return View(model);
+            if (model.Email.Contains("aol.com"))
+            {
+                ModelState.AddModelError("", "We don't support AOL addresses");
+            }
+            if (ModelState.IsValid)
+            {
+                _mailService.SendMail(_config["MailSettings:ToAddress"], model.Email, "From Traveling", model.Message);
+                ModelState.Clear();
+                ViewBag.UserMessage = "Message Sent";
+            }
+            return View();
         }
 
         public IActionResult About()
@@ -35,4 +47,4 @@ namespace MyTravel.Controllers.Web
             return View();
         }
     }
-} 
+}

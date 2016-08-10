@@ -11,7 +11,11 @@
 <h3>Contact Me</h3>
 
 <form method="post">
-    <span asp-validation-summary="ModelOnly"></span>
+    <div asp-validation-summary="ModelOnly"></div>
+    @if (ViewBag.UserMessage != null)
+    {
+        <div>@ViewBag.UserMessage</div>
+    }
     <div>
         <label asp-for="Name">Name</label>
         <input asp-for="Name" />
