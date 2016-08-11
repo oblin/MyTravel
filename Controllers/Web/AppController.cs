@@ -10,21 +10,19 @@ namespace MyTravel.Controllers.Web
     public class AppController : Controller
     {
         private IMailService _mailService;
-        private IConfigurationRoot _config;    
-        private TravelContext _context;    
+        private IConfigurationRoot _config;
+        private ITravelRepository _repository;    
 
-        public AppController(
-            IMailService mailService, IConfigurationRoot config,
-            TravelContext context)
+        public AppController(IMailService mailService, IConfigurationRoot config, ITravelRepository repository)
         {
             _mailService = mailService;
             _config = config;
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult Index()
         {
-            var data = _context.Trips.ToList();
+            var data = _repository.GetAllTrips();
             return View(data);
         }
 

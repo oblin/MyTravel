@@ -30,7 +30,9 @@ namespace MyTravel
             services.AddSingleton(_config);
 
             services.AddDbContext<TravelContext>();
+            services.AddScoped<ITravelRepository, TravelRepository>();
             services.AddTransient<TravelContextSeedData>();
+            
             services.AddMvc();
         }
 

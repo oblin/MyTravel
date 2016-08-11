@@ -1,3 +1,4 @@
+@model IEnumerable<MyTravel.Models.Trip>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -20,7 +21,13 @@
         </form>    
     </div>
     <div class="col-sm-6">
-        The Map
+        <h2>The Map</h2>
+        <ul>
+            @foreach(var item in Model)
+            {
+                <li>@item.Name : @item.DateCreated.ToString("d")</li>
+            }
+        </ul>
     </div>
 </div>
 
