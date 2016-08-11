@@ -21,7 +21,8 @@
     "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
       "version": "1.0.1",
       "type": "build"
-    }
+    },
+    "Newtonsoft.Json": "9.0.1"
   },
 
   "tools": {
@@ -40,7 +41,8 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "debugType": "portable"
   },
 
   "runtimeOptions": {

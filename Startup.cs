@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyTravel.Models;
 using MyTravel.Services;
+using Newtonsoft.Json.Serialization;
 
 namespace MyTravel
 {
@@ -34,6 +35,8 @@ namespace MyTravel
             services.AddTransient<TravelContextSeedData>();
             
             services.AddMvc();
+                    // .AddJsonOptions(config => config.SerializerSettings.ContractResolver
+                    //     = new CamelCasePropertyNamesContractResolver());
         }
 
         public void Configure(IApplicationBuilder app, 
