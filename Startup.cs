@@ -41,8 +41,15 @@ namespace MyTravel
             TravelContextSeedData seed)
         {
             if (_env.IsEnvironment("Development"))
+            {
                 app.UseDeveloperExceptionPage();
-            
+                loggerFactory.AddConsole(LogLevel.Information);
+            }
+            else 
+            {
+                loggerFactory.AddConsole(LogLevel.Error);
+            }
+
             app.UseStaticFiles();
             app.UseMvc(config => {
                 config.MapRoute(

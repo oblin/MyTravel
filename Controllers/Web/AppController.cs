@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MyTravel.Models;
 using MyTravel.Services;
 using MyTravel.ViewModels;
@@ -11,19 +12,30 @@ namespace MyTravel.Controllers.Web
     {
         private IMailService _mailService;
         private IConfigurationRoot _config;
-        private ITravelRepository _repository;    
+        private ITravelRepository _repository;
+        private ILogger<AppController> _logger;
 
-        public AppController(IMailService mailService, IConfigurationRoot config, ITravelRepository repository)
+        public AppController(IMailService mailService, IConfigurationRoot config,
+            ITravelRepository repository, ILogger<AppController> logger)
         {
             _mailService = mailService;
             _config = config;
             _repository = repository;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
-            var data = _repository.GetAllTrips();
-            return View(data);
+            try
+            {
+                var data = _repository.GetAllTrips();
+                return View(data);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to get trips in Index page: {ex.Message}");
+                return Redirect("/error_page");
+            }
         }
 
         public IActionResult Contact()
