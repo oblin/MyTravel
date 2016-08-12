@@ -7,6 +7,6 @@ namespace MyTravel.ViewModels
     {
         [Required, StringLength(100, MinimumLength = 5)]
         public string Name { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

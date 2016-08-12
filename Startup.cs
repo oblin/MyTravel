@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyTravel.Models;
 using MyTravel.Services;
+using MyTravel.ViewModels;
 using Newtonsoft.Json.Serialization;
 
 namespace MyTravel
@@ -43,6 +45,10 @@ namespace MyTravel
             ILoggerFactory loggerFactory,
             TravelContextSeedData seed)
         {
+            Mapper.Initialize(config => {
+                config.CreateMap<TripViewModel, Trip>().ReverseMap();
+            });
+            
             if (_env.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
