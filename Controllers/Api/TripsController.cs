@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,24 +24,30 @@ namespace MyTravel
         [HttpGet]
         public IActionResult Get()
         {
-            try{
-            var result = _repository.GetAllTrips(); 
-            return Ok(Mapper.Map<IEnumerable<TripViewModel>>(result));
-            } 
+            try
+            {
+                var result = _repository.GetAllTrips();
+                return Ok(Mapper.Map<IEnumerable<TripViewModel>>(result));
+            }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get all trips: {ex}");
-                return BadRequest($"Error Occurs: {ex.Message}");
             }
+            return BadRequest($"Error Occurs when get all Trips");
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] TripViewModel model)
+        public async Task<IActionResult> Post([FromBody] TripViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var newTrip = Mapper.Map<Trip>(model);
-                return Created($"api/trips/{model.Name}", Mapper.Map<TripViewModel>(newTrip));
+                _repository.AddTrip(newTrip);
+
+                if (await _repository.SaveChangesAsync())
+                    return Created($"api/trips/{model.Name}", Mapper.Map<TripViewModel>(newTrip));
+                else
+                    return BadRequest("Failed to save changes to the database");
             }
             return BadRequest(ModelState);
         }

@@ -47,6 +47,7 @@ namespace MyTravel
         {
             Mapper.Initialize(config => {
                 config.CreateMap<TripViewModel, Trip>().ReverseMap();
+                config.CreateMap<StopViewModel, Stop>().ReverseMap();
             });
             
             if (_env.IsEnvironment("Development"))
