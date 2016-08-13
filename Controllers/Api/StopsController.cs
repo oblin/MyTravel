@@ -52,7 +52,7 @@ namespace MyTravel
                 {
                     var newStop = Mapper.Map<Stop>(model);
 
-                    var result = await _coordService.GetCoordsAsync(newStop.Name);
+                    var result = await _coordService.GetGoogleMapCoordsAsync(newStop.Name);
                     if (!result.Success)
                     {
                         _logger.LogError(result.Message);
@@ -65,7 +65,8 @@ namespace MyTravel
 
                         if (await _repository.SaveChangesAsync())
                         {
-                            return Created($"/api/trips/{tripName}/stops/{newStop.Name}",
+                            var addr = System.Net.WebUtility.UrlEncode(newStop.Name);
+                            return Created($"/api/trips/{tripName}/stops/{addr}",
                                 Mapper.Map<StopViewModel>(newStop));
                         }
                     }

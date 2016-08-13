@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,35 @@ namespace MyTravel.Services
             _config = config;
         }
 
+        public async Task<GeoCoordsResult> GetGoogleMapCoordsAsync(string address)
+        {
+            var result = new GeoCoordsResult
+            {
+                Success = false,
+                Message = "Failed to get Coordinates"
+            };
+
+            var encodeAddr = WebUtility.UrlEncode(address);
+            var url = $"http://maps.googleapis.com/maps/api/geocode/json?address={encodeAddr}&language=zh-TW";
+            var client = new HttpClient();
+            var json = await client.GetStringAsync(url);
+            var results = JObject.Parse(json);
+
+            if (!results["results"].HasValues)
+            {
+                result.Message = $"Could not find '{address}' as a location";
+            }
+            else
+            {
+                result.Latitude = (double)results["results"][0]["geometry"]["location"]["lat"];
+                result.Longitude = (double)results["results"][0]["geometry"]["location"]["lng"];
+                result.Success = true;
+                result.Message = "Success";
+            }
+
+            return result;
+        }
+
         public async Task<GeoCoordsResult> GetCoordsAsync(string name)
         {
             var result = new GeoCoordsResult
@@ -25,7 +55,7 @@ namespace MyTravel.Services
                 Message = "Failed to get Coordinates"
             };
             var apiKey = _config["Keys:BingKey2"];
-            var endcodeName = System.Net.WebUtility.UrlEncode(name);
+            var endcodeName = WebUtility.UrlEncode(name);
 
             var url = $"http://dev.virtualearch.net/REST/v1/Locations?q={endcodeName}&key={apiKey}";
 
