@@ -23,7 +23,8 @@
       "type": "build"
     },
     "Newtonsoft.Json": "9.0.1",
-    "AutoMapper": "5.1.0"
+    "AutoMapper": "5.1.0",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0"
   },
 
   "tools": {

@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace MyTravel.Models
 {
-    public class TravelContext : DbContext
+    public class TravelContext : IdentityDbContext<TravelUser>
     {
         private IConfigurationRoot _config;
 
