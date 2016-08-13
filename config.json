@@ -5,5 +5,9 @@
   "ConnectionStrings": {
     "Postgresql": "server=192.168.0.74;user id=postgres;password=490910;database=MyTravel",
     "sqllocaldb": "Server=(localdb)\\MSSQLLocalDb;Database=MyTravel;Trusted_Connection=true;MultipleActiveResultSets=true;"
+  },
+  "Keys": {
+    "BingKey": "DONTEVERPUTKEYINGITHUB(放在環境變數中)",
+    "BingKey2":"AicN_etGCKsC-Jhi8Hir6rbtBR_T7A6ucJVhTZNIuA_MsHNkvHjFHm6qHw6ujGbM"
   }
 }

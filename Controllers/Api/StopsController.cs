@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyTravel.Models;
+using MyTravel.Services;
 using MyTravel.ViewModels;
 
 namespace MyTravel
@@ -15,11 +16,15 @@ namespace MyTravel
     {
         private ITravelRepository _repository;
         private ILogger<StopsController> _logger;
+        private GeoCoordsService _coordService;
 
-        public StopsController(ITravelRepository repository, ILogger<StopsController> logger)
+        public StopsController(ITravelRepository repository,
+            GeoCoordsService coordService,
+            ILogger<StopsController> logger)
         {
             _repository = repository;
             _logger = logger;
+            _coordService = coordService;
         }
 
         [HttpGet]
@@ -46,12 +51,23 @@ namespace MyTravel
                 if (ModelState.IsValid)
                 {
                     var newStop = Mapper.Map<Stop>(model);
-                    _repository.AddStop(tripName, newStop);
-                    
-                    if (await _repository.SaveChangesAsync())
+
+                    var result = await _coordService.GetCoordsAsync(newStop.Name);
+                    if (!result.Success)
                     {
-                        return Created($"/api/trips/{tripName}/stops/{newStop.Name}",
-                            Mapper.Map<StopViewModel>(newStop));
+                        _logger.LogError(result.Message);
+                    }
+                    else
+                    {
+                        newStop.Latitude = result.Latitude;
+                        newStop.Longitude = result.Longitude;
+                        _repository.AddStop(tripName, newStop);
+
+                        if (await _repository.SaveChangesAsync())
+                        {
+                            return Created($"/api/trips/{tripName}/stops/{newStop.Name}",
+                                Mapper.Map<StopViewModel>(newStop));
+                        }
                     }
                 }
             }

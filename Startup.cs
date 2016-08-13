@@ -35,7 +35,8 @@ namespace MyTravel
             services.AddDbContext<TravelContext>();
             services.AddScoped<ITravelRepository, TravelRepository>();
             services.AddTransient<TravelContextSeedData>();
-            
+            services.AddTransient<GeoCoordsService>();
+            services.AddLogging();
             services.AddMvc();
                     // .AddJsonOptions(config => config.SerializerSettings.ContractResolver
                     //     = new CamelCasePropertyNamesContractResolver());
