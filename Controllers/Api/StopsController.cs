@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyTravel.Models;
@@ -11,7 +12,7 @@ using MyTravel.ViewModels;
 
 namespace MyTravel
 {
-    [Route("api/trips/{tripName}/stops")]
+    [Route("api/trips/{tripName}/stops")][Authorize]
     public class StopsController : Controller
     {
         private ITravelRepository _repository;
@@ -32,7 +33,7 @@ namespace MyTravel
         {
             try
             {
-                var trip = _repository.GetTripByName(tripName);
+                var trip = _repository.GetTripByName(tripName, User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<StopViewModel>>(
                     trip.Stops.OrderBy(s => s.Order).ToList()));
             }
@@ -61,7 +62,7 @@ namespace MyTravel
                     {
                         newStop.Latitude = result.Latitude;
                         newStop.Longitude = result.Longitude;
-                        _repository.AddStop(tripName, newStop);
+                        _repository.AddStop(tripName, User.Identity.Name, newStop);
 
                         if (await _repository.SaveChangesAsync())
                         {

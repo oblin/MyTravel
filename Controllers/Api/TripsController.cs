@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyTravel.Models;
@@ -10,6 +11,7 @@ using MyTravel.ViewModels;
 namespace MyTravel
 {
     [Route("api/trips")]
+    [Authorize]
     public class TripsController : Controller
     {
         private ITravelRepository _repository;
@@ -26,8 +28,8 @@ namespace MyTravel
         {
             try
             {
-                var result = _repository.GetAllTrips();
-                return Ok(Mapper.Map<IEnumerable<TripViewModel>>(result));
+                var trips = _repository.GetAllTripsWithStops(User.Identity.Name);
+                return Ok(Mapper.Map<IEnumerable<TripViewModel>>(trips));
             }
             catch (Exception ex)
             {
@@ -42,10 +44,14 @@ namespace MyTravel
             if (ModelState.IsValid)
             {
                 var newTrip = Mapper.Map<Trip>(model);
+                newTrip.UserName = User.Identity.Name;
                 _repository.AddTrip(newTrip);
 
                 if (await _repository.SaveChangesAsync())
-                    return Created($"api/trips/{model.Name}", Mapper.Map<TripViewModel>(newTrip));
+                {
+                    var encodedName = System.Net.WebUtility.UrlEncode(newTrip.Name);
+                    return Created($"api/trips/{encodedName}", Mapper.Map<TripViewModel>(newTrip));
+                }
                 else
                     return BadRequest("Failed to save changes to the database");
             }
