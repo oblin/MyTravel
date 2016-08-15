@@ -4,22 +4,43 @@
 
     angular.module("app-trips")
         .controller("tripsController", tripsController);
-
-    function tripsController() {
+    tripsController.$inject = ['$http'];
+    function tripsController($http) {
         var vm = this;
-        vm.trips = [{
-            name: "US Trip",
-            created: "2015-01-12"
-        }, {
-            name: "Japan Trip",
-            created: "2015-11-21"
-        }];
+        vm.trips = [];
 
         vm.newTrip = {};
 
+        vm.errorMessage = "";
+        vm.isBusy = true;
+
+        $http.get("/api/trips").then(
+            function (response) {
+                // success
+                angular.copy(response.data, vm.trips);
+            },
+            function (error) {
+                // failure
+                vm.errorMessage = "Failed to Load data: " + error;
+            }
+        ).finally(function () {
+            // vm.isBusy = false;
+        });
+
         vm.addTrip = function () {
-            vm.trips.push({ name: vm.newTrip.name, created: new Date() });
-            vm.newTrip = {};
+            vm.isBusy = true;
+
+            $http.post("/api/trips", vm.newTrip).then(
+                function (response) {
+                    vm.trips.push(response.data);
+                    vm.newTrip = {};
+                },
+                function (error) {
+                    vm.errorMessage = "Failed to Load data: " + error;
+                }
+            ).finally(function () {
+                vm.isBusy = false;
+            });
         }
     }
 })();
