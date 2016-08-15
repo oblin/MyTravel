@@ -2,7 +2,8 @@
   "css": {
     "site": [
       "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
-      "wwwroot/lib/font-awesome/css/font-awesome.css"
+      "wwwroot/lib/font-awesome/css/font-awesome.css",
+      "wwwroot/lib/angular/angular-csp.css"
     ],
     "style": [
       "wwwroot/css/site.css"
