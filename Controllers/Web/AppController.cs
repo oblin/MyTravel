@@ -32,16 +32,7 @@ namespace MyTravel.Controllers.Web
         [Authorize]
         public IActionResult Trips()
         {
-            try
-            {
-                var data = _repository.GetAllTrips();
-                return View(data);
-            }
-            catch (System.Exception ex)
-            {
-                _logger.LogError($"Failed to get trips in Index page: {ex.Message}");
-                return Redirect("/error_page");
-            }
+            return View();
         }
 
         public IActionResult Contact()

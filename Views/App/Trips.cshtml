@@ -5,62 +5,14 @@
 
 @section scripts{
     <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-route/angular-route.min.js"></script>
     <script src="~/js/simpleControls.js"></script>
     <script src="~/js/app-trips.js"></script>
     <script src="~/js/tripsController.js"></script>
+    <script src="~/js/tripEditorController.js"></script>
 }
 <div class="row" ng-app="app-trips">
-    <div ng-controller="tripsController as vm" class="col-sm-6 col-sm-offset-3">
-        <div class="text-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
-        <wait-cursor display-when="vm.isBusy"></wait-cursor>
-        <table class="table table-responsive table-striped">
-            <tr ng-repeat="trip in vm.trips">
-                <td>{{ trip.name }}</td>
-                <td>{{ trip.created | date: 'yyyy-MM-dd' }}</td>
-                <td><a href="#" class="btn btn-sm btn-primary">Manage</a></td>
-            </tr>
-        </table>
+    <div ng-view></div>
 
-<form name="newTripForm" novalidate ng-submit="vm.addTrip()">
-    <div class="form-group">
-        <label class="control-label" for="name">Trip Name</label>
-        <input type="text" id="name" name="name" class="form-control" 
-            ng-model="vm.newTrip.name" ng-minlength="5" required />
-        <span ng-show="newTripForm.name.$error.required" class="text-warning">Name is required.</span>
-        <span ng-show="newTripForm.name.$error.minlength" class="text-warning">Name must have 5 chars.</span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Add" class="btn btn-success btn-sm" 
-            ng-disabled="newTripForm.$invalid" />
-    </div>
-</form>
-    </div>
-
-    <div>{{ "Two plus tow equals: " + (2 + 2 ) }}</div>
-    <div class="col-sm-6">
-        <h3>The World</h3>
-        <p>This will be a fun website soon!</p>
-
-        <form>
-            <div class="form-group">
-                <label class="control-label">Date</label>
-                <input type="" value="" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>Location</label>
-                <input type="" value="" class="form-control" />
-            </div>
-            <input type="submit" value="Add Location" class="btn btn-success" />
-        </form>    
-    </div>
-    <div class="col-sm-6">
-        <h2>The Map</h2>
-        <ul>
-            @foreach(var item in Model)
-            {
-                <li>@item.Name : @item.DateCreated.ToString("d")</li>
-            }
-        </ul>
-    </div>
 </div>
 
