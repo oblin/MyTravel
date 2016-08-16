@@ -2,9 +2,8 @@
 (function () {
     'use strict';
 
-    angular.module("app-trips")
-        .controller("tripsController", tripsController);
-    tripsController.$inject = ['$http'];
+    angular.module("app-trips").controller("tripsController", tripsController);
+    
     function tripsController($http) {
         var vm = this;
         vm.trips = [];

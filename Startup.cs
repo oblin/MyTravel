@@ -32,7 +32,7 @@ namespace MyTravel
 
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_env.IsDevelopment())
+            // if (_env.IsDevelopment())
                 services.AddTransient<IMailService, DebugMailService>();
             services.AddSingleton(_config);
 
@@ -64,10 +64,10 @@ namespace MyTravel
             }).AddEntityFrameworkStores<TravelContext>();
             
             services.AddMvc(config => {
-                if (_env.IsProduction())
-                {
-                    config.Filters.Add(new RequireHttpsAttribute());
-                }
+                // if (_env.IsProduction())
+                // {
+                //     config.Filters.Add(new RequireHttpsAttribute());
+                // }
             });
                     // .AddJsonOptions(config => config.SerializerSettings.ContractResolver
                     //     = new CamelCasePropertyNamesContractResolver());
@@ -82,7 +82,7 @@ namespace MyTravel
                 config.CreateMap<StopViewModel, Stop>().ReverseMap();
             });
             
-            if (_env.IsEnvironment("Development"))
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 loggerFactory.AddConsole(LogLevel.Information);
