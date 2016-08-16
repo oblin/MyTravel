@@ -66,8 +66,9 @@ namespace MyTravel
 
                         if (await _repository.SaveChangesAsync())
                         {
-                            var addr = System.Net.WebUtility.UrlEncode(newStop.Name);
-                            return Created($"/api/trips/{tripName}/stops/{addr}",
+                            var encodedAddr = System.Net.WebUtility.UrlEncode(newStop.Name);
+                            var endcodedName  = System.Net.WebUtility.UrlEncode(tripName);
+                            return Created($"/api/trips/{endcodedName}/stops/{encodedAddr}",
                                 Mapper.Map<StopViewModel>(newStop));
                         }
                     }

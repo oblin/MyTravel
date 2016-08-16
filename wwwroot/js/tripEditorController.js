@@ -10,8 +10,11 @@
         vm.stops = [];
         vm.errorMessage = "";
         vm.isbusy = true;
+        vm.newStop = {};
 
-        $http.get("/api/trips/" + vm.tripName + "/stops")
+        var url = "/api/trips/" + vm.tripName + "/stops";
+
+        $http.get(url)
              .then(function(response) {
                 angular.copy(response.data, vm.stops);
                 _showMap(vm.stops);
@@ -19,6 +22,22 @@
                  vm.errorMessage = "Failed to load stops";
              })
              .finally(function() { vm.isbusy = false; });    
+
+        vm.addStop = function () {
+            vm.isbusy = true;
+            $http.post(url, vm.newStop)
+                 .then(function(response) {
+                     vm.stops.push(response.data);
+                     _showMap(vm.stops);
+                     vm.newStop = {};
+                 },
+                 function(error) {
+                     vm.errorMessage = "Failed to add new stop";
+                 })
+                 .finally(function() {
+                     vm.isbusy = false;
+                 });
+        };
     }
 
     function _showMap(stops) {  // 使用 _ 代表此為 inside javascript object scope，不會被外部存取
@@ -35,7 +54,7 @@
                 stops: mapStops,
                 selector: "#map",   // 指定要顯示的位置: html tag id="#map"
                 currentStop: 1,
-                initialZoom: 3
+                initialZoom: 9
             });
         }
     }
