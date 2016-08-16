@@ -1,8 +1,20 @@
 <div>
     <a href="#/" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i> Back</a>
-    <div class="col-sm-6">
-        <h3>The World - {{ vm.name }}</h3>
-        <p>This will be a fun website soon!</p>
+    <div class="col-sm-3">
+        <h2>{{ vm.tripName }}</h2>
+        <wait-cursor display-when="vm.isBusy"></wait-cursor>
+        <div class="alert alert-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+
+        <table class="table table-responsive table-striped">
+            <tr>
+                <th>Location</th>
+                <th>Arrival</th>
+            </tr>
+            <tr ng-repeat="stop in vm.stops">
+                <td>{{ stop.name }}</td>
+                <td>{{ stop.arrival | date: "yyyy-MM-dd" }}</td>
+            </tr>
+        </table>
 
         <form>
             <div class="form-group">
@@ -16,7 +28,7 @@
             <input type="submit" value="Add Location" class="btn btn-success" />
         </form>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-9">
         <h2>The Map</h2>
         <ul>
         </ul>
