@@ -56,11 +56,16 @@
   "publishOptions": {
     "include": [
       "wwwroot",
-      "web.config"
+      "config.json",
+      "Views"
     ]
   },
 
   "scripts": {
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+    "prepublish": [
+      "npm install", 
+      "bower install"
+    ],
+    "prepare": "gulp minify"
   }
 }
